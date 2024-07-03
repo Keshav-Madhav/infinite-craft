@@ -1,3 +1,5 @@
+"use client"
+
 import CanvasArea from "@/components/CanvasArea";
 import ElementsList from "@/components/ElementsList";
 
