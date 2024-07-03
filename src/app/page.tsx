@@ -1,13 +1,11 @@
-"use client"
-
-import { DndContext } from "@dnd-kit/core";
+import CanvasArea from "@/components/CanvasArea";
+import ElementsList from "@/components/ElementsList";
 
 export default function Home() {
   return (
-    <DndContext>
-      <div className="w-[100dvw] h-[100dvh] flex">
-        
-      </div>
-    </DndContext>
+    <div className="w-[100dvw] h-[100dvh] flex">
+      <CanvasArea/>
+      <ElementsList/>
+    </div>
   );
 }
