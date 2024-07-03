@@ -6,7 +6,6 @@ import Elements from './Elements'
 const ElementsList = () => {
   const [value, setValue] = useState('');
   const { elementsList } = useElementeStore()
-  console.log(elementsList)
 
   return (
     <div className='min-w-[22rem] w-[22rem] h-full border-l-[1px]'>

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { RefObject } from 'react';
 
 type Store = {
   elementsList: ElementType[];
@@ -7,6 +8,8 @@ type Store = {
   setSelectedElement: (element: ElementType) => void;
   addElement: (element: ElementType) => void;
   removeElement: (element: ElementType) => void;
+  canvasElements: canvasElementType[];
+  addCanvasElement: (element: ElementType, ref: RefObject<HTMLDivElement>) => void;
 };
 
 export const useElementeStore = create<Store>((set) => ({
@@ -30,6 +33,13 @@ export const useElementeStore = create<Store>((set) => ({
       const newElementsList = state.elementsList.filter((el) => el.id !== element.id);
       localStorage.setItem('elementsList', JSON.stringify(newElementsList));
       return { elementsList: newElementsList };
+    });
+  },
+  canvasElements: [],
+  addCanvasElement: (element, ref) => {
+    set((state) => {
+      const newCanvasElement = { ...element, x: Math.random() * 500, y: Math.random() * 500, ref };
+      return { canvasElements: [...state.canvasElements, newCanvasElement] };
     });
   },
 }));
