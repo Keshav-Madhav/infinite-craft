@@ -88,10 +88,14 @@ const CanvasArea = () => {
   
       for (let j = 0; j < closestDots.length; j++) {
         const dot = closestDots[j];
+        const distance = Math.hypot(dot.x - centerX, dot.y - centerY);
+        const maxDistance = 250; // max possible distance on the canvas
+        const opacity = 1 - (distance / maxDistance); // Calculate opacity based on distance
+  
         ctx.beginPath();
         ctx.moveTo(dot.x, dot.y);
         ctx.lineTo(centerX, centerY);
-        ctx.strokeStyle = '#bbbbbb';
+        ctx.strokeStyle = `rgba(150, 150, 150, ${opacity})`;
         ctx.lineWidth = 0.5;
         ctx.stroke();
       }
@@ -126,6 +130,7 @@ const CanvasArea = () => {
       }
     }
   };
+  
 
   useEffect(() => {
     const canvas = canvasRef.current;
