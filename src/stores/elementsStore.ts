@@ -9,7 +9,9 @@ type Store = {
   addElement: (element: ElementType) => void;
   removeElement: (element: ElementType) => void;
   canvasElements: canvasElementType[];
-  addCanvasElement: (element: ElementType, ref: RefObject<HTMLDivElement>) => void;
+  addCanvasElement: (element: ElementType, ref: RefObject<HTMLDivElement>, x?: number, y?: number) => void;
+  removeCanvasElement: (uniqueId: number) => void;
+  clearCanvasElements: () => void;
   modifyCanvasElementPosition: (x: number, y: number, elementId: number) => void;
 };
 
@@ -22,19 +24,29 @@ const generateUniqueNumberId = () => {
 export const useElementeStore = create<Store>((set) => ({
   elementsList: 
     JSON.parse(localStorage.getItem('elementsList') || '[{"elementId": 1, "name": "Earth", "emoji": "🌎"},{"elementId": 2, "name": "Water", "emoji": "💧"},{"elementId": 3, "name": "Fire", "emoji": "🔥"},{"elementId": 4, "name": "Wind", "emoji": "💨"}]'),
+
   setElementsList: (elementsList) => {
     localStorage.setItem('elementsList', JSON.stringify(elementsList));
     set({ elementsList });
   },    
+
   selectedElement: null,
+
   setSelectedElement: (selectedElement) => set({ selectedElement }),
+
   addElement: (element) => {
     set((state) => {
+      // Check if an element with the same name or id already exists
+      const existingElement = state.elementsList.find((el) => el.name === element.name || el.elementId === element.elementId);
+      if (existingElement) {
+        return state;
+      }
       const newElementsList = [...state.elementsList, element];
       localStorage.setItem('elementsList', JSON.stringify(newElementsList));
       return { elementsList: newElementsList };
     });
-  },
+  },  
+
   removeElement: (element) => {
     set((state) => {
       const newElementsList = state.elementsList.filter((el) => el.elementId !== element.elementId);
@@ -42,13 +54,33 @@ export const useElementeStore = create<Store>((set) => ({
       return { elementsList: newElementsList };
     });
   },
+
   canvasElements: [],
-  addCanvasElement: (element, ref) => {
+
+  addCanvasElement: (element, ref, x, y) => {
     set((state) => {
-      const newCanvasElement = { ...element, x: Math.random() * 700, y: Math.random() * 700, ref, uniqueId: generateUniqueNumberId() };
+      const newCanvasElement = { 
+        ...element, 
+        x: x || Math.random() * 700, 
+        y: y || Math.random() * 700, 
+        ref, 
+        uniqueId: generateUniqueNumberId() 
+      };
       return { canvasElements: [...state.canvasElements, newCanvasElement] };
     });
   },
+
+  removeCanvasElement: (uniqueId) => {
+    set((state) => {
+      const newCanvasElements = state.canvasElements.filter((el) => el.uniqueId !== uniqueId);
+      return { canvasElements: newCanvasElements };
+    });
+  },
+
+  clearCanvasElements: () => {
+    set({ canvasElements: [] });
+  },
+  
   modifyCanvasElementPosition: (x, y, uniqueId) => {
     set((state) => {
       const newCanvasElements = state.canvasElements.map((el) => {

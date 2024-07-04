@@ -154,7 +154,7 @@ const CanvasArea = () => {
       <canvas ref={canvasRef} className='absolute w-full h-full -z-50'/>
       {canvasElements.map((element) => (
         <Elements 
-          key={element.elementId} 
+          key={element.uniqueId} 
           element={element} 
           elementRef={element.ref}
           x={element.x}

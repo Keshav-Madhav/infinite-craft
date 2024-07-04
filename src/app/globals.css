@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+* {
+  transition: transform 0.3s ease, background-image 0.3s ease;
+}
+
+.element-effect:hover, .gradient-effect {
+  background-image: linear-gradient(to top, rgba(59, 130, 246, 0.2), white, white);
+}
+
