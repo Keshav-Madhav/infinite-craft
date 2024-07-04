@@ -152,10 +152,10 @@ const CanvasArea = () => {
         animationFrameId.current = null;
       }
     };
-  }, [canvasElements]);
+  }, [canvasElements, dots]);
 
   return (
-    <div className='relative w-full h-full border-r-[1px] flex items-center justify-center'>
+    <div className='relative w-[calc(100dvw-22rem)] h-full border-r-[1px] flex items-center justify-center'>
       <canvas ref={canvasRef} className='absolute w-full h-full -z-50'/>
       {canvasElements.map((element) => (
         <Elements 
