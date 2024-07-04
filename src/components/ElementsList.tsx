@@ -23,7 +23,7 @@ const ElementsList = () => {
       <div className='flex flex-wrap gap-2 p-3'>
         {elementsList.map((element) => (
           <Elements
-            key={element.id}
+            key={element.elementId}
             element={element}
           />
         ))}

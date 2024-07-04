@@ -1,11 +1,12 @@
 type ElementType = {
-  id: number;
+  elementId: number;
   name: string;
   emoji: string;
 };
 
 type canvasElementType ={
-  id: number;
+  elementId: number;
+  uniqueId: number;
   name: string;
   emoji: string;
   x: number;
