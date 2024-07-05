@@ -1,5 +1,6 @@
 import { useElementeStore } from '@/stores/elementsStore'
 import { RefObject, createRef, forwardRef, useEffect } from 'react'
+import CreateNewElement from './CreateNewElement'
 
 type Props = {
   element: ElementType
@@ -11,7 +12,7 @@ type Props = {
 }
 
 const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => {
-  const { addCanvasElement, modifyCanvasElementPosition, removeCanvasElement, canvasElements, addElement} = useElementeStore();
+  const { addCanvasElement, modifyCanvasElementPosition, removeCanvasElement, canvasElements, addElement, elementsList} = useElementeStore();
 
   const handleClick = () => {
     if (!elementRef) {
@@ -27,6 +28,33 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
       removeCanvasElement(uniqueId);
     }
   };
+
+  
+  const handleMerge = async(element1: string, element2: string, newElementX: number, newElementY: number, uqID1: number, uqID2: number) => {
+    const element = await CreateNewElement({element1, element2});
+    if(element !== '#NAN#') {
+      const newElement = { 
+        elementId: elementsList.length + 1,
+        name: element.split(':')[1], 
+        emoji: element.split(':')[0]
+      };
+      console.log(newElement);
+    
+      addElement(newElement);
+      const newRef = createRef<HTMLDivElement>();
+
+      addCanvasElement(
+        newElement, 
+        newRef, 
+        newElementX, 
+        newElementY
+      );
+      
+      removeCanvasElement(uqID1);
+      removeCanvasElement(uqID2);
+    }
+  }
+
 
   useEffect(() => {
     if(elementRef && canvasRef && x && y && uniqueId) {
@@ -104,24 +132,7 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
                   currElementY + currElementHeight > otherElementY!) {
                     const newElementX = (currElementX + otherElementX) / 2;
                     const newElementY = (currElementY + otherElementY) / 2;
-                    const newElement = { elementId: 5, name: 'newEl', emoji: '🪨' };
-                    
-                    addElement(newElement);
-
-                    removeCanvasElement(uniqueId);
-                    removeCanvasElement(el.uniqueId);
-                    const newRef = createRef<HTMLDivElement>();
-
-                    addCanvasElement(
-                      {
-                        elementId: 5,
-                        name: 'newEl',
-                        emoji: '🪨'
-                      }, 
-                      newRef, 
-                      newElementX, 
-                      newElementY
-                    );
+                    handleMerge(element.name, el.name, newElementX, newElementY, uniqueId, el.uniqueId);
                   }
               }
             });

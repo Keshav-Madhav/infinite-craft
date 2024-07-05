@@ -35,7 +35,7 @@ const ElementsList = () => {
         <span>Infinite Craft</span>
       </div>
 
-      <div className='absolute -left-20 top-0 w-20 bg-transparent flex items-center justify-end p-2'>
+      <div className='absolute right-[22rem] top-0 w-fit bg-transparent flex items-center justify-end p-2'>
         <button onClick={clearCanvasElements} className='w-9 h-9 flex items-center justify-center rounded-full hover:border-2 border-gray-600 active:bg-gray-200'>
           <Paintbrush size={20} className='text-gray-600'/>
         </button>

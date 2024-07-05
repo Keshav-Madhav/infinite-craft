@@ -23,7 +23,7 @@ const generateUniqueNumberId = () => {
 
 export const useElementeStore = create<Store>((set) => ({
   elementsList: 
-    JSON.parse(localStorage.getItem('elementsList') || '[{"elementId": 1, "name": "Earth", "emoji": "🌎"},{"elementId": 2, "name": "Water", "emoji": "💧"},{"elementId": 3, "name": "Fire", "emoji": "🔥"},{"elementId": 4, "name": "Wind", "emoji": "💨"}]'),
+    JSON.parse(localStorage.getItem('elementsList') || '[{"elementId": 1, "name": "Earth", "emoji": "🌎"},{"elementId": 2, "name": "Water", "emoji": "💧"},{"elementId": 3, "name": "Fire", "emoji": "🔥"},{"elementId": 4, "name": "Wind", "emoji": "🌬️"}]'),
 
   setElementsList: (elementsList) => {
     localStorage.setItem('elementsList', JSON.stringify(elementsList));
