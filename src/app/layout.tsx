@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Infinite Craft",
-  description: "An endless merge and craft game",
+  description: "An endless merge and craft game. Clone of neal.fun/infinite-craft",
 };
 
 export default function RootLayout({

@@ -8,6 +8,7 @@ type Store = {
   setSelectedElement: (element: ElementType) => void;
   addElement: (element: ElementType) => void;
   removeElement: (element: ElementType) => void;
+  removeAllElements: () => void;
   canvasElements: canvasElementType[];
   addCanvasElement: (element: ElementType, ref: RefObject<HTMLDivElement>, x?: number, y?: number) => void;
   removeCanvasElement: (uniqueId: number) => void;
@@ -53,6 +54,11 @@ export const useElementeStore = create<Store>((set) => ({
       localStorage.setItem('elementsList', JSON.stringify(newElementsList));
       return { elementsList: newElementsList };
     });
+  },
+
+  removeAllElements: () => {
+    set({ elementsList: [] });
+    localStorage.removeItem('elementsList');
   },
 
   canvasElements: [],

@@ -11,3 +11,8 @@
   background-image: linear-gradient(to top, rgba(59, 130, 246, 0.2), white, white);
 }
 
+.gradient-text {
+  background-image: linear-gradient(to right, #bb48f4, #5f57df);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
