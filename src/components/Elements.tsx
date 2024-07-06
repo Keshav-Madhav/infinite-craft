@@ -18,6 +18,7 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
   const handleClick = () => {
     if (!elementRef) {
       const newRef = createRef<HTMLDivElement>();
+      new Audio('/element-insert.wav').play();
       addCanvasElement(element, newRef);
     }
   };  
@@ -27,6 +28,7 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
     e.stopPropagation();
     if(elementRef && uniqueId) {
       removeCanvasElement(uniqueId);
+      new Audio('/element-remove.mp3').play();
     }
   };
 
@@ -51,6 +53,7 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
         newElementY
       );
 
+      new Audio('/element-merge.mp3').play();
       
       removeCanvasElement(uqID1);
       removeCanvasElement(uqID2);
@@ -65,6 +68,7 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
   useEffect(() => {
     if(elementRef && canvasRef && x && y && uniqueId) {
       const handleMouseDown = (e: MouseEvent) => {
+        if(e.button !== 0) return;
         let offsetX = 0;
         let offsetY = 0;
 
@@ -76,6 +80,7 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
         }
 
         const handleMouseMove = (e: MouseEvent) => {
+          if(e.button !== 0) return;
           if(!elementRef.current || !canvasRef.current) return;
           const canvasBounds = canvasRef.current.getBoundingClientRect();
         
