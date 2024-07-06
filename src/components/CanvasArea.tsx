@@ -1,6 +1,7 @@
 import { useElementeStore } from '@/stores/elementsStore';
 import React, { RefObject, useEffect, useRef } from 'react';
 import Elements from './Elements';
+import { AnimatePresence } from 'framer-motion';
 
 type Dot = {
   x: number;
@@ -157,17 +158,19 @@ const CanvasArea = () => {
   return (
     <div className='relative w-[calc(100dvw-22rem)] h-full border-r-[1px] flex items-center justify-center'>
       <canvas ref={canvasRef} className='absolute w-full h-full -z-50'/>
-      {canvasElements.map((element) => (
-        <Elements 
-          key={element.uniqueId} 
-          element={element} 
-          elementRef={element.ref}
-          x={element.x}
-          y={element.y}
-          uniqueId={element.uniqueId}
-          canvasRef={canvasRef}
-        />
-      ))}
+      <AnimatePresence>
+        {canvasElements.map((element) => (
+          <Elements 
+            key={element.uniqueId} 
+            element={element} 
+            elementRef={element.ref}
+            x={element.x}
+            y={element.y}
+            uniqueId={element.uniqueId}
+            canvasRef={canvasRef}
+          />
+        ))}
+      </AnimatePresence>
     </div>
   );
 };

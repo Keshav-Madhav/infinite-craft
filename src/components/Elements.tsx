@@ -1,6 +1,7 @@
 import { useElementeStore } from '@/stores/elementsStore'
-import { RefObject, createRef, forwardRef, useEffect } from 'react'
+import { RefObject, createRef, useEffect } from 'react'
 import CreateNewElement from './CreateNewElement'
+import { motion } from 'framer-motion'
 
 type Props = {
   element: ElementType
@@ -49,9 +50,14 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
         newElementX, 
         newElementY
       );
+
       
       removeCanvasElement(uqID1);
       removeCanvasElement(uqID2);
+
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -132,7 +138,14 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
                   currElementY + currElementHeight > otherElementY!) {
                     const newElementX = (currElementX + otherElementX) / 2;
                     const newElementY = (currElementY + otherElementY) / 2;
-                    handleMerge(element.name, el.name, newElementX, newElementY, uniqueId, el.uniqueId);
+                    const isMerged = handleMerge(element.name, el.name, newElementX, newElementY, uniqueId, el.uniqueId);
+
+                    if(!isMerged && el.ref.current && elementRef.current) {
+                      el.ref.current.classList.remove('gradient-effect');
+                      el.ref.current.style.transform = 'scale(1)';
+                      elementRef.current.classList.remove('gradient-effect');
+                      elementRef.current.style.transform = 'scale(1)';
+                    }
                   }
               }
             });
@@ -154,7 +167,7 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
   }, [elementRef, x, y, uniqueId, canvasElements, addElement, modifyCanvasElementPosition, removeCanvasElement, addCanvasElement, canvasRef]);
 
   return (
-    <div 
+    <motion.div 
       className={`
         h-10 px-2 py-1.5 rounded-md border cursor-pointer bg-white hover:border-gray-400 element-effect
         ${elementRef ? 'absolute' : 'relative'}
@@ -165,9 +178,13 @@ const Elements = ({ element, elementRef, x, y, uniqueId, canvasRef }: Props) => 
       ref={elementRef}
       onClick={handleClick}
       onContextMenu={handleRightClick}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.05 }}
+      exit={{ opacity: 0.5, scale: 0 }}
     >
       {element.emoji} {element.name}
-    </div>
+    </motion.div>
   )
 };
 
