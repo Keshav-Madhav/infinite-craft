@@ -1,12 +1,14 @@
-import OpenAI from "openai";
+import { OpenAI } from "@langchain/openai";
 
-const openai = new OpenAI({apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY, dangerouslyAllowBrowser:true});
+const model = new OpenAI({
+  model: "gpt-4o",
+  temperature: 0,
+  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+});
 
 const CreateNewElement = async({element1, element2}: {element1: string, element2: string}) => {
-  const completion = await openai.chat.completions.create({
-    messages: [{ 
-      role: "system", 
-      content: `Your task is to combine two input elements into a resulting element that closely relates to both. (from here on now, elements are used to describe anything, it can be a physical element, a concept, a feeling, an entity, etc.)
+  const response = await model.invoke(
+    `Your task is to combine two input elements into a resulting element that closely relates to both. (from here on now, elements are used to describe anything, it can be a physical element, a concept, a feeling, an entity, etc.)
         The resulting element 1) should be connected to both input elements closely, 2) cannot be disjoint from one or both the inputs and 3) should be a superset of the input elements meaning if two of the same thing are combined, the result is the collective of that thing. Example: Water+Water=Lake,Fire+fire=Wildfire,lake+lake=seas,tree+tree=forest,dust+dust=desert, etc.
         Rule 3 does not apply if there is a no collective of the input elements, Example: Earth+Earth=Mountain,Sun+Sun=Star,Electricity+Electricity=Lightning, etc.
         Input:
@@ -41,12 +43,9 @@ const CreateNewElement = async({element1, element2}: {element1: string, element2
         El1: ${element1}
         El2: ${element2}
         Please only reply in the format <Emoji>:resulting element`
-    }],
-    model: "gpt-4o",
-    temperature: 0,
-  });
+  );
 
-  return completion.choices[0].message.content || '#NAN#';
+  return response || '#NAN#';
 }
 
 export default CreateNewElement

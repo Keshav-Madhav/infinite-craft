@@ -57,7 +57,7 @@ export const useElementeStore = create<Store>((set) => ({
   },
 
   removeAllElements: () => {
-    set({ elementsList: [] });
+    set({ elementsList: [{"elementId": 1, "name": "Earth", "emoji": "🌎"},{"elementId": 2, "name": "Water", "emoji": "💧"},{"elementId": 3, "name": "Fire", "emoji": "🔥"},{"elementId": 4, "name": "Wind", "emoji": "🌬️"}] });
     localStorage.removeItem('elementsList');
   },
 
